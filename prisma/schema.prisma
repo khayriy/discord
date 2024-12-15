@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model profile {
+  id String @id @default(uuid()) 
+  userId String @unique 
+  name String 
+  imageUrl String @db.Text
+  email String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  servers server[]
+  members member[]
+  channels channel[]
+}
+
+model server {
+  id String @id @default(uuid())
+  name String 
+  imageUrl String @db.Text
+  inviteCode String @db.Text
+  profileId String 
+  profile profile @relation(fields: [profileId] , references: [id] , onDelete:  Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members member[]
+  channels channel[]
+  @@index([profileId])
+}
+
+enum MemberRole { 
+  ADMIN 
+  MODERATOR 
+  GUEST 
+}
+
+model member {
+  id String @id @default(uuid())
+  role MemberRole @default(GUEST) 
+  profileId String 
+  profile profile @relation(fields: [profileId] , references: [id] , onDelete: Cascade)
+
+  serverId String 
+  server server @relation(fields: [serverId] , references: [id] , onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+enum ChanelType {
+  TEXT 
+  AUDIO 
+  VIDEO 
+}
+
+model channel {
+  id String @id @default(uuid())
+  name String 
+  type ChanelType @default(TEXT)
+
+  profileId String 
+  profile profile @relation(fields: [profileId] , references: [id] , onDelete:  Cascade)
+  serverId String 
+  server server @relation(fields: [serverId] , references: [id] , onDelete:  Cascade) 
+   createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt 
+
+  @@index([serverId])
+  @@index([profileId])
+
+}

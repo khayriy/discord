@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/providers/theme-proivder";
+import { cn } from "@/lib/utils";
+import { Suspense } from "react";
+import { useTheme } from "next-themes";
+import { ModalProviders } from "@/components/providers/modal-providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,16 +26,38 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+ 
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+ 
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            `font-poppins ${geistSans.variable} ${geistMono.variable} antialiased`,
+            "bg-white dark:bg-[#313338]"
+          )}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            // enableSystem={false}
+            storageKey="discord-next15"
+          >
+            <ModalProviders /> 
+            {children}
+
+           
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
+
+
