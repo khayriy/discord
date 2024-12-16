@@ -5,6 +5,8 @@ import { db } from '@/lib/db'
 
 export const initailProfile = async ()=>{
     const user = await currentUser() 
+    
+    
     if (!user) return null
       
 

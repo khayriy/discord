@@ -53,7 +53,8 @@ const ServerModal = () => {
    try {
       await axios.post('/api/servers' , values)
       form.reset() 
-      router.refresh() 
+      router.refresh()
+      onClose() 
      
    }
    catch(err) {

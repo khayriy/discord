@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { useTheme } from "next-themes";
 import { ModalProviders } from "@/components/providers/modal-providers";
+import ErrorBoundary from "@/components/error-boundary";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,32 +33,53 @@ export default function RootLayout({
 }>) {
 
 
+  try {
+    return (
+   
+      <ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={cn(
+              `font-poppins ${geistSans.variable} ${geistMono.variable} antialiased`,
+              "bg-white dark:bg-[#313338]"
+            )}
+          >
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              // enableSystem={false}
+              storageKey="discord-next15"
+            >
+              <ModalProviders /> 
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </ClerkProvider>
+      
+    );
+  }
+
+  catch(err) {
+
+
+    console.log(err , 'hi iam err from front end') 
+    return  <html lang="en" suppressHydrationWarning>
+    <body
+      className={cn(
+        `font-poppins ${geistSans.variable} ${geistMono.variable} antialiased`,
+        "bg-white dark:bg-[#313338]"
+      )}
+    >
+      <p>
+        It Seems Thata there is some critical error
+      </p>
+    </body>
+  </html>
+  }
  
 
-  return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            `font-poppins ${geistSans.variable} ${geistMono.variable} antialiased`,
-            "bg-white dark:bg-[#313338]"
-          )}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            // enableSystem={false}
-            storageKey="discord-next15"
-          >
-            <ModalProviders /> 
-            {children}
-
-           
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
-  );
+ 
 }
 
 

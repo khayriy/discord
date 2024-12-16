@@ -16,6 +16,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
     
     const fileType = value?.split('.')?.pop()
 
+    console.log(value , 'iam the value')
+
     if(value && fileType !== 'pdf') {
         return (
             <>
@@ -38,6 +40,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
     
     <UploadDropzone
+    className="z-0"
       endpoint={endpoint}
       onClientUploadComplete={(res) => onChange(res?.[0].url) }
       onUploadError={(error : Error)=>{console.log(error)}}
