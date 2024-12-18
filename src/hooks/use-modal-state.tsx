@@ -1,11 +1,18 @@
+import { server } from "@prisma/client";
 import { create } from "zustand";
 
-export type ModalType = "createServer";
+export type ModalType = "createServer" | 'invite';
+
+
+interface modalData { 
+  server? : server
+}
 
 interface modalStoreInterface {
   type: ModalType | null;
   isOpen: boolean;
-  onOpen: (type: ModalType) => void;
+  data? : modalData ,
+  onOpen: (type: ModalType , data? : modalData) => void;
   onClose: () => void;
 }
 
@@ -13,8 +20,9 @@ export const useModal = create<modalStoreInterface>((set) => {
   return {
     type: null,
     isOpen: false,
-    onOpen(type) {
-      set({ isOpen: true, type });
+    data : {} , 
+    onOpen(type , data = {} ) {
+      set({ isOpen: true, type , data});
     },
     onClose() {
       set({ isOpen: false, type: null });
