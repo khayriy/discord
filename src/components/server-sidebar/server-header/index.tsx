@@ -26,7 +26,9 @@ interface serverHeaderInterface {
 
 const ServerHeader = ({ server, role }: serverHeaderInterface) => {
   const isAdmin = role === MemberRole.ADMIN;
-  const isModerator = isAdmin || MemberRole.MODERATOR;
+  const isModerator = isAdmin || role === MemberRole.MODERATOR;
+
+ 
   const {onOpen} = useModal()
   return (
     <DropdownMenu>
@@ -52,7 +54,7 @@ const ServerHeader = ({ server, role }: serverHeaderInterface) => {
 
         {isAdmin && (
           <>
-            <DropdownMenuItem className="p-2 text-sm cursor-pointer">
+            <DropdownMenuItem onClick={()=> onOpen('editServer' , {server})} className="p-2 text-sm cursor-pointer">
               Server Settings
               <Settings className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
