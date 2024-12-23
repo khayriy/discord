@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-state";
-import dynamic from "next/dynamic";
 import FileUpload from "@/components/file-upload";
 import { useEffect } from "react";
 // const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: true });
@@ -46,8 +45,8 @@ const EditServerModel = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name:  "",
-      imageUrl:  "",
+      name: "",
+      imageUrl: "",
     },
   });
 
@@ -55,9 +54,9 @@ const EditServerModel = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-     await axios.patch(`/api/servers/${data?.server?.id}`, values);
-     router.refresh()
-     onClose();
+      await axios.patch(`/api/servers/${data?.server?.id}`, values);
+      router.refresh();
+      onClose();
     } catch (err) {
       console.log(err);
     }
@@ -68,12 +67,12 @@ const EditServerModel = () => {
     onClose();
   };
 
-  useEffect(()=>{
-    if(data?.server) {
-        form.setValue('name' , data?.server.name)
-        form.setValue('imageUrl' , data?.server.imageUrl)
+  useEffect(() => {
+    if (data?.server) {
+      form.setValue("name", data?.server.name);
+      form.setValue("imageUrl", data?.server.imageUrl);
     }
-  } ,[data?.server])
+  }, [data?.server]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
@@ -82,7 +81,6 @@ const EditServerModel = () => {
           <DialogTitle className="text-2xl text-center font-bold">
             Update You Server
           </DialogTitle>
-       
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
@@ -127,7 +125,9 @@ const EditServerModel = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 p-6 flex items-center justify-center">
-              <Button disabled={isLoading} variant="primary">Update</Button>
+              <Button disabled={isLoading} variant="primary">
+                Update
+              </Button>
             </DialogFooter>
           </form>
         </Form>

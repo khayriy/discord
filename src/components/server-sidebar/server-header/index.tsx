@@ -59,7 +59,7 @@ const ServerHeader = ({ server, role }: serverHeaderInterface) => {
               <Settings className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="p-2 text-sm cursor-pointer">
+            <DropdownMenuItem onClick={()=> onOpen('manageMembers' , {server})} className="p-2 text-sm cursor-pointer">
               Mange Members
               <Users className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
