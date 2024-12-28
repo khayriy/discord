@@ -46,7 +46,7 @@ const formSchema = z.object({
 });
 
 const CreateChannelModel = () => {
-  const { isOpen, type, onClose } = useModal();
+  const { isOpen, type, onClose , data } = useModal();
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "createChannel";
@@ -62,7 +62,7 @@ const CreateChannelModel = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/servers", values);
+      await axios.post(`/api/channels?serverId=${data?.server?.id}`, values);
       form.reset();
       router.refresh();
       onClose();
